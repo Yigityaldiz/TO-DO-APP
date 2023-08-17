@@ -4,10 +4,14 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import TodoList from "./components/TodoList";
 
+
+
 function App() {
+
+  const [ todo , setTodo ] = useState([])
   return (
     <>
-    <TodoList/>
+    <TodoList setTodo = {setTodo} todo ={todo} />
     </>
   );
 }
