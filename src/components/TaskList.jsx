@@ -1,9 +1,31 @@
+import { useState } from "react";
+
 export const TaskList = ({
   todo,
   setTodo,
   completedTodo,
   setCompletedTodo,
 }) => {
+  const [editValue, setEditValue] = useState();
+  const [editMode, setEditMode] = useState(false);
+
+  const edit = (x) => {
+    
+    setEditMode(true);
+  };
+
+  const save = (x) => {
+    const updateValue = todo.map((value) => {
+      if (value === x) {
+        return editValue === "" ? value : editValue;
+      }
+      
+    });
+    setTodo(...todo , updateValue);
+
+    setEditMode(false)
+  };
+
   const deleteTodo = (taskToDelete) => {
     const updatedTodo = todo.filter((task) => task !== taskToDelete);
     setTodo(updatedTodo); // splice yapinca niye yenilenmiyor sor
@@ -24,11 +46,12 @@ export const TaskList = ({
       {Array.isArray(todo) &&
         todo.map((x, i) => (
           <div
+            id="change"
             key={i}
             className="  bg-red-700/25 items-center flex gap-4 p-1 rounded-lg m-2"
           >
             <svg
-              onClick={()=> success(x)}
+              onClick={() => success(x)}
               xmlns="http://www.w3.org/2000/svg"
               class="icon icon-tabler icon-tabler-trophy"
               width="52"
@@ -48,10 +71,32 @@ export const TaskList = ({
               <path d="M5 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
               <path d="M19 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
             </svg>
-            <p className=" h-[80%] w-[50%] p-1 text-white ">
-              {x}
-            </p>
-            <button>Edit</button>
+            {!editMode ? (
+             <p className=" h-[80%] w-[50%] p-1 text-white ">{x}</p>
+            ) : (
+              <input
+              onChange={(e) => {
+                setEditValue(e.target.value);
+              }}
+              value={x}
+              type="text"
+              className=" h-[80%] w-[50%] p-1 text-white   bg-red-700/0  border-none "
+            />
+              
+            )}
+
+            {!editMode ? (
+              <button
+                onClick={() => {
+                  edit(x);
+                }}
+              >
+                Edit
+              </button>
+            ) : (
+              <button onClick={()=>{save(x)}}>Save</button>
+            )}
+
             <button onClick={() => deleteTodo(x)}>Delete</button>
           </div>
         ))}

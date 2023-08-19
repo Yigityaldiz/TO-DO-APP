@@ -15,11 +15,11 @@ export default function TodoList({
   };
   const addTodo = () => {
     if (input.trim() === "") return;
-
+    
     const newTodo = [...todo, input];
-    if (setTodo) {
+    
       setTodo(newTodo);
-    }
+    
     setInput("");
   };
 
@@ -28,7 +28,7 @@ export default function TodoList({
       <div className="">
         <div
           id="mainpage"
-          className=" bg-slate-900  w-[100%] h-screen flex items-center flex-col gap-4"
+          className=" bg-slate-900  w-[100%] min-h-screen flex items-center flex-col gap-4"
         >
           <div className=" flex w-[100%] h-[10%] justify-center m-4">
             <h1 className="font-mono text-[50px] subpixel-antialiased font-bold text-white ">
@@ -41,6 +41,7 @@ export default function TodoList({
               action=""
             >
               <input
+                value={input}
                 onChange={addList}
                 className="bg-slate-700 border-2  rounded-lg w-[75%] text-left p-2  "
                 placeholder="What would you like to do ?"
